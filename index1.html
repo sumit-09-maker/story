@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>हमारी कहानी ❤️</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Philosopher:ital,wght@0,400;0,700;1,400&family=Noto+Sans+Devanagari:wght@300;400;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --rose-light: #ffd4d4;
+            --rose: #ff9999;
+            --rose-deep: #cc6666;
+            --rose-dark: #994444;
+            --cream: #fffbf5;
+            --cream-dark: #f5f0e8;
+            --gold: #daa520;
+            --gold-light: #f4d9a0;
+            --lavender: #e6d5f5;
+            --lavender-deep: #c9a9e6;
+            --peach: #ffb89d;
+            --sage: #b8c9b4;
+            --charcoal: #2a2a2a;
+            --charcoal-soft: #4a4a4a;
+        }
+
+        body {
+            font-family: 'Crimson Pro', 'Cormorant Garamond', serif;
+            color: var(--charcoal);
+            overflow: hidden;
+            line-height: 1.8;
+        }
+
+        .hindi-text {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+        }
+
+        /* Slide Container */
+        .slides-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0);
+            z-index: 10;
+        }
+
+        .slide.prev {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+
+        /* Background Effects Container */
+        .bg-effects {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        /* LOVELY BACKGROUND - Soft romantic with floating particles */
+        .bg-lovely {
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 184, 157, 0.5) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(230, 213, 245, 0.6) 0%, transparent 50%),
+                radial-gradient(circle at 50% 10%, rgba(255, 212, 212, 0.4) 0%, transparent 60%),
+                linear-gradient(135deg, #fff5f8 0%, #fffbf5 50%, #f5f0ff 100%);
+        }
+
+        .lovely-particle {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            animation: float-lovely 18s infinite ease-in-out;
+        }
+
+        @keyframes float-lovely {
+            0% {
+                transform: translateY(110vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            5% { opacity: 0.7; }
+            50% { opacity: 0.9; }
+            95% { opacity: 0.4; }
+            100% {
+                transform: translateY(-10vh) translateX(var(--drift)) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* SORROW BACKGROUND - Dark with rain */
+        .bg-sorrow {
+            background: 
+                linear-gradient(to bottom, rgba(40, 50, 70, 0.95), rgba(20, 30, 50, 0.98)),
+                radial-gradient(circle at 50% 50%, #2a3a5a, #0a1a3a);
+        }
+
+        .rain-drop {
+            position: absolute;
+            top: -10%;
+            width: 1px;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, rgba(120, 150, 200, 0.6), transparent);
+            animation: fall-rain 1.2s linear infinite;
+        }
+
+        @keyframes fall-rain {
+            to {
+                transform: translateY(110vh);
+            }
+        }
+
+        .bg-sorrow .slide-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* FLASHBACK BACKGROUND - Vintage sepia with scanlines */
+        .bg-flashback {
+            background: 
+                repeating-linear-gradient(0deg, transparent 0px, rgba(101, 67, 33, 0.03) 1px, transparent 2px),
+                repeating-linear-gradient(90deg, transparent 0px, rgba(101, 67, 33, 0.03) 1px, transparent 2px),
+                linear-gradient(180deg, rgba(210, 180, 140, 0.5), rgba(255, 228, 181, 0.6)),
+                radial-gradient(circle at 50% 50%, #f5e6d3, #d4c4a8);
+        }
+
+        .bg-flashback::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                repeating-linear-gradient(0deg, transparent 0px, rgba(0, 0, 0, 0.05) 1px, transparent 3px);
+            animation: scanlines 10s linear infinite;
+            z-index: 1;
+        }
+
+        .bg-flashback::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle, transparent 20%, rgba(80, 50, 20, 0.5) 100%);
+            z-index: 1;
+        }
+
+        @keyframes scanlines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(6px); }
+        }
+
+        /* WIND BACKGROUND - Dynamic with blowing elements */
+        .bg-wind {
+            background: 
+                linear-gradient(120deg, rgba(200, 230, 255, 0.6) 0%, rgba(240, 248, 255, 0.8) 50%, rgba(230, 240, 250, 0.6) 100%),
+                radial-gradient(circle at 30% 40%, #e8f4ff, #f0f8ff);
+        }
+
+        .wind-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(to right, transparent, rgba(150, 180, 220, 0.7), rgba(180, 210, 240, 0.6), transparent);
+            animation: blow-wind 2.5s linear infinite;
+            width: 300px;
+        }
+
+        @keyframes blow-wind {
+            0% {
+                left: -300px;
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                left: 100%;
+                opacity: 0;
+            }
+        }
+
+        .wind-leaf {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: rgba(139, 90, 43, 0.6);
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            animation: leaf-blow 6s linear infinite;
+        }
+
+        @keyframes leaf-blow {
+            0% {
+                left: -5%;
+                transform: rotate(0deg) translateY(0);
+                opacity: 0;
+            }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.5; }
+            100% {
+                left: 110%;
+                transform: rotate(720deg) translateY(80vh);
+                opacity: 0;
+            }
+        }
+
+        /* DEMOLISHED BACKGROUND - Broken and dark */
+        .bg-demolished {
+            background: 
+                linear-gradient(45deg, rgba(60, 60, 60, 0.9) 0%, rgba(40, 40, 40, 0.95) 50%, rgba(30, 30, 30, 0.98) 100%),
+                radial-gradient(circle at 30% 40%, #3a3a3a, #1a1a1a);
+        }
+
+        .crack-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.8), transparent);
+            width: 100%;
+            animation: crack-spread 2s ease-out forwards;
+            transform-origin: center;
+        }
+
+        @keyframes crack-spread {
+            from {
+                transform: scaleX(0) rotate(0deg);
+                opacity: 0;
+            }
+            to {
+                transform: scaleX(1) rotate(var(--angle, 0deg));
+                opacity: 1;
+            }
+        }
+
+        .debris-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: rgba(80, 80, 80, 0.7);
+            animation: fall-debris 4s ease-in infinite;
+        }
+
+        @keyframes fall-debris {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.8; }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* SORRY BACKGROUND - Melancholic with tears */
+        .bg-sorry {
+            background: 
+                radial-gradient(circle at 40% 30%, rgba(150, 170, 210, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 60% 70%, rgba(180, 160, 200, 0.3) 0%, transparent 50%),
+                linear-gradient(135deg, rgba(190, 200, 230, 0.6), rgba(210, 200, 220, 0.5)),
+                linear-gradient(to bottom, #e8ebf5, #f5f0f8);
+        }
+
+        .tear-drop {
+            position: absolute;
+            width: 6px;
+            height: 14px;
+            background: linear-gradient(to bottom, rgba(100, 150, 200, 0.5), rgba(120, 160, 210, 0.7));
+            border-radius: 50% 50% 50% 0%;
+            transform: rotate(45deg);
+            animation: fall-tear 5s ease-in infinite;
+        }
+
+        @keyframes fall-tear {
+            0% {
+                top: -5%;
+                opacity: 0;
+            }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.4; }
+            100% {
+                top: 110%;
+                opacity: 0;
+            }
+        }
+
+        /* HOPE BACKGROUND - Glimmering light rays */
+        .bg-hope {
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(255, 235, 150, 0.5) 0%, transparent 60%),
+                radial-gradient(circle at 30% 40%, rgba(255, 210, 180, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(255, 220, 200, 0.3) 0%, transparent 50%),
+                linear-gradient(135deg, #fff8e1 0%, #ffe4e1 50%, #fff0e8 100%);
+        }
+
+        .glimmer-star {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.9), rgba(255, 223, 0, 0.5), transparent);
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
+        }
+
+        .light-beam {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 3px;
+            height: 250px;
+            background: linear-gradient(to bottom, rgba(255, 215, 0, 0.7), rgba(255, 223, 0, 0.3), transparent);
+            transform-origin: top center;
+            animation: rotate-beam 25s linear infinite;
+            filter: blur(1px);
+        }
+
+        @keyframes rotate-beam {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Content Styling */
+        .slide-content {
+            max-width: 1200px;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .slide-content.center {
+            flex-direction: column;
+            text-align: center;
+            max-width: 900px;
+        }
+
+        .photo-section {
+            flex: 1;
+            position: relative;
+            min-width: 320px;
+        }
+
+        .photo-section.double-photo {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .photo-section.multi-photo {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+        }
+
+        .photo-frame {
+            position: relative;
+            background: white;
+            padding: 1.8rem;
+            box-shadow: 
+                0 2px 8px rgba(0, 0, 0, 0.08),
+                0 12px 40px rgba(0, 0, 0, 0.12),
+                0 0 0 1px rgba(0, 0, 0, 0.03);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .photo-frame:hover {
+            transform: scale(1.05) translateY(-8px);
+            box-shadow: 
+                0 4px 16px rgba(0, 0, 0, 0.12),
+                0 24px 60px rgba(255, 153, 153, 0.25);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 2px;
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, var(--sage) 0%, var(--rose) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.95rem;
+            color: white;
+            font-style: italic;
+        }
+
+        .text-section {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .chapter-title {
+            font-family: 'Philosopher', serif;
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            color: var(--rose-dark);
+            margin-bottom: 2rem;
+            font-weight: 700;
+            line-height: 1.3;
+            text-shadow: 0 2px 10px rgba(204, 102, 102, 0.15);
+        }
+
+        .bg-sorrow .chapter-title,
+        .bg-demolished .chapter-title {
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.6);
+        }
+
+        .chapter-title.hindi-text {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            font-weight: 700;
+        }
+
+        .chapter-text {
+            font-size: 1.3rem;
+            color: var(--charcoal-soft);
+            line-height: 2.1;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        .bg-sorrow .chapter-text,
+        .bg-demolished .chapter-text {
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .opening-message {
+            font-family: 'Crimson Pro', serif;
+            font-size: clamp(1.6rem, 4vw, 2.6rem);
+            color: var(--charcoal);
+            line-height: 2.2;
+            font-weight: 300;
+            font-style: italic;
+            margin-bottom: 3rem;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .decision-text {
+            font-size: 1.5rem;
+            line-height: 2.3;
+            color: var(--charcoal);
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        .decision-buttons {
+            display: flex;
+            gap: 4rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 4rem;
+        }
+
+        .decision-btn {
+            padding: 1.8rem 4rem;
+            font-size: 1.5rem;
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            font-weight: 700;
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            min-width: 180px;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff4081 50%, #c44569 100%);
+            color: white;
+        }
+
+        .btn-yes:hover {
+            transform: translateY(-6px) scale(1.08);
+            box-shadow: 0 16px 50px rgba(255, 107, 157, 0.5);
+        }
+
+        .btn-no {
+            background: linear-gradient(135deg, #a8b5b8 0%, #8a9597 100%);
+            color: white;
+        }
+
+        .btn-no:hover {
+            transform: translateY(-6px) scale(1.08);
+            box-shadow: 0 16px 50px rgba(138, 149, 151, 0.4);
+        }
+
+        .btn-icon {
+            font-size: 1.8rem;
+            margin-left: 0.8rem;
+            display: inline-block;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            10%, 30% { transform: scale(1.1); }
+            20%, 40% { transform: scale(0.9); }
+        }
+
+        .ending-title {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            font-size: clamp(2.8rem, 6vw, 4.5rem);
+            color: var(--rose-dark);
+            margin-bottom: 3rem;
+            font-weight: 800;
+            line-height: 1.3;
+        }
+
+        .ending-text {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            font-size: 1.5rem;
+            line-height: 2.4;
+            color: var(--charcoal);
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .signature {
+            font-family: 'Philosopher', serif;
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-top: 4rem;
+            font-style: italic;
+            font-weight: 700;
+        }
+
+        .decorative-line {
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--rose), transparent);
+            margin: 2rem auto;
+            position: relative;
+        }
+
+        .decorative-line::before,
+        .decorative-line::after {
+            content: '❤';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            color: var(--rose);
+        }
+
+        .decorative-line::before { left: -20px; }
+        .decorative-line::after { right: -20px; }
+
+        /* Navigation */
+        .slide-nav {
+            position: fixed;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid var(--rose);
+            color: var(--rose-dark);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            font-family: 'Noto Sans Devanagari', sans-serif;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: var(--rose);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(204, 102, 102, 0.3);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            color: var(--charcoal);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .slide-content {
+                flex-direction: column !important;
+            }
+
+            .photo-section.multi-photo {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .decision-buttons {
+                flex-direction: column;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .photo-section.double-photo {
+                grid-template-columns: 1fr;
+            }
+
+            .slide-nav {
+                bottom: 1.5rem;
+                gap: 1rem;
+            }
+
+            .nav-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slides-container">
+        <!-- Slide 0: Opening -->
+        <div class="slide active bg-lovely">
+            <div class="bg-effects" id="bg0"></div>
+            <div class="slide-content center">
+                <p class="opening-message">
+                    I know things between us did not go well in the last few weeks, but I just want you to have a look at this small creation.
+                </p>
+                <div class="decorative-line"></div>
+            </div>
+        </div>
+
+        <!-- Slide 1: The Girl -->
+        <div class="slide bg-lovely">
+            <div class="bg-effects" id="bg1"></div>
+            <div class="slide-content">
+                <div class="photo-section">
+                    <div class="photo-frame">
+                        <img src="images/her_photo.jpg" alt="Tridipsha" onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>Her Photo</div>'">
+                    </div>
+                </div>
+                <div class="text-section">
+                    <p class="chapter-text">
+                        A girl from a different place gets into a college in a different state which was completely new to her. She didn't know how to make things right; she was facing a lot of trauma because of her parents. But she never let it come across her way to success—she still fights it with maturity. She is very talented, blessed with music, dance, and what not. But at the same time, she is annoying, rowdy... but cute.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: The Boy -->
+        <div class="slide bg-lovely">
+            <div class="bg-effects" id="bg2"></div>
+            <div class="slide-content">
+                <div class="photo-section">
+                    <div class="photo-frame">
+                        <img src="images/my_photo.jpg" alt="Sumit" onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>His Photo</div>'">
+                    </div>
+                </div>
+                <div class="text-section">
+                    <p class="chapter-text">
+                        A boy from UP who has anger issues. A foodie who just lives to eat and enjoy. Suffering from poor luck, his destiny landed him in a different space. With a habit of getting into everything to pursue the title of "Jack of All Trades."
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Chapter 1 -->
+        <div class="slide bg-lovely">
+            <div class="bg-effects" id="bg3"></div>
+            <div class="slide-content">
+                <div class="photo-section">
+                    <div class="photo-frame">
+                        <img src="images/ahemdabad_trip.PNG" alt="First meeting" onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>First Meeting</div>'">
+                    </div>
+                </div>
+                <div class="text-section">
+                    <h2 class="chapter-title hindi-text">अध्याय 1: पहली मुलाकात</h2>
+                    <p class="chapter-text">
+                        They went on their first college trip to Ahmedabad. Fatty had grown a new habit of capturing images—he wanted to become the best photographer of India. While trying to click one such masterpiece, their paths crossed. The girl asked him, "Are you alright?" The answer that came made her spit the fifth Marie Gold biscuit from the pack onto the guy's face. Fatty said, "I have a passion for photography." Stupid Fatty was unaware that the spit which landed on his face went deep inside and touched his heart for the first time.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Chapter 2 -->
+        <div class="slide bg-lovely">
+            <div class="bg-effects" id="bg4"></div>
+            <div class="slide-content">
+                <div class="photo-section">
+                    <div class="photo-frame">
+                        <img src="images/evening_walk.PNG" alt="Evening walks" onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>Evening Walks</div>'">
+                    </div>
+                </div>
+                <div class="text-section">
+                    <h2 class="chapter-title hindi-text">अध्याय 2: शाम की सैर और सिलसिला</h2>
+                    <p class="chapter-text">
+                        Fatty approached the girl for a walk, and then they started doing it frequently. The evening walks became a cherished routine, where conversations flowed effortlessly and silences felt comfortable.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Chapter 3 -->
+        <div class="slide bg-lovely">
+            <div class="bg-effects" id="bg5"></div>
+            <div class="slide-content">
+                <div class="photo-section">
+                    <div class="photo-frame">
+                        <img src="images/moon.JPG" alt="Under the moon" onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>Under the Moonlight</div>'">
+                    </div>
+                </div>
+                <div class="text-section">
+                    <h2 class="chapter-title hindi-text">अध्याय 3: चाँद के नीचे किया अपने चाँद से प्यार का इज़हार</h2>
+                    <p class="chapter-text">
+                        The boy confessed his love for her. The girl was shocked, but this feeling which was new to her made her feel special. They kissed under the moon, sealing a moment that would remain etched in their hearts forever.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Chapter 4 - SORROW -->
+        <div class="slide bg-sorrow">
+            <div class="bg-effects" id="bg6"></div>
+            <div class="slide-content">
+                <div class="photo-section">
+                    <div class="photo-frame">
+                        <img src="images/difficult_times.JPG" alt="Separation" onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>Difficult Times</div>'">
+                    </div>
+                </div>
+                <div class="text-section">
+                    <h2 class="chapter-title hindi-text">अध्याय 4: दोनों के बीच के हालातों से मजबूर होना पड़ा एक दूसरे से दूर</h2>
+                    <p class="chapter-text">
+                        The circumstances were not in their favor, and they got separated. Both of them were broken. But the guy, whose feelings were true, shattered into infinite pieces. At the same time, he faced family problems, a death, and what not. Completely broken, he fell into depression when it felt like everything had ended. Yet, he chose to rise above all the miseries and fought his way out.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Chapter 5 - FLASHBACK -->
+        <div class="slide bg-flashback">
+            <div class="bg-effects" id="bg7"></div>
+            <div class="slide-content">
+                <div class="photo-section">
+                    <div class="photo-frame">
+                        <img src="images/her_missing.JPG" alt="Missing" onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>Missing You</div>'">
+                    </div>
+                </div>
+                <div class="text-section">
+                    <h2 class="chapter-title hindi-text">अध्याय 5: एक अनचाहा एहसास</h2>
+                    <p class="chapter-text">
+                        Being away from the guy, the girl realized his value in her life. She felt how his company made her feel safe. She felt how his mischiefs were like entertainment that made her want to mother him. She missed every inch of him—the hugs, the kisses, the walks, everything.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Chapter 6 -->
+        <div class="slide bg-lovely">
+            <div class="bg-effects" id="bg8"></div>
+            <div class="slide-content">
+                <div class="photo-section double-photo">
+                    <div class="photo-frame">
+                        <img src="images/reunion1.jpg" alt="Reunion 1" onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>Reunion</div>'">
+                    </div>
+                    <div class="photo-frame">
+                        <img src="images/reunion2.JPG" alt="Reunion 2" onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>Together Again</div>'">
+                    </div>
+                </div>
+                <div class="text-section">
+                    <h2 class="chapter-title hindi-text">अध्याय 6: पुनः मिलन</h2>
+                    <p class="chapter-text">
+                        The girl had developed very strong feelings toward the man. She requested him to give her a chance again, and the man agreed. But this time, he was very cautious. The girl put in a lot of effort to win him back, but the man, with his wounds, flashbacks, and ego, was moving gradually. Disagreements started again, but this time the girl kept her patience, wanting to sort things out between them.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Chapter 7 - WIND -->
+        <div class="slide bg-wind">
+            <div class="bg-effects" id="bg9"></div>
+            <div class="slide-content">
+                <div class="photo-section multi-photo">
+                    <div class="photo-frame">
+                        <img src="images/memory1.jpg" alt="Memory 1" onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>Memory 1</div>'">
+                    </div>
+                    <div class="photo-frame">
+                        <img src="images/memory2.jpg" alt="Memory 2" onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>Memory 2</div>'">
+                    </div>
+                    <div class="photo-frame">
+                        <img src="images/memory3.HEIC" alt="Memory 3" onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>Memory 3</div>'">
+                    </div>
+                    <div class="photo-frame">
+                        <img src="images/memory4.jpg" alt="Memory 4" onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>Memory 4</div>'">
+                    </div>
+                    <div class="photo-frame">
+                        <img src="images/memory5.JPG" alt="Memory 5" onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>Memory 5</div>'">
+                    </div>
+                    <div class="photo-frame">
+                        <img src="images/memory6.JPG" alt="Memory 6" onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>Memory 6</div>'">
+                    </div>
+                </div>
+                <div class="text-section">
+                    <h2 class="chapter-title hindi-text">अध्याय 7: मिट्टी के मकान</h2>
+                    <p class="chapter-text">
+                        Things between them started going smoothly, all because of the girl's efforts. The man's attitude was getting lenient, but at a pace which the girl couldn't wait for. Slowly, their fragile foundation was being rebuilt.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Chapter 8 - DEMOLISHED -->
+        <div class="slide bg-demolished">
+            <div class="bg-effects" id="bg10"></div>
+            <div class="slide-content">
+                <div class="photo-section">
+                    <div class="photo-frame">
+                        <img src="images/current_photo.JPG" alt="Current" onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>This Moment</div>'">
+                    </div>
+                </div>
+                <div class="text-section">
+                    <h2 class="chapter-title hindi-text">अध्याय 8: समय और सुध-बुध का खेल निराला, दोहरा डाला इतिहास दोबारा</h2>
+                    <p class="chapter-text">
+                        The girl, wanting to hold the man's hand, was tired of everything. She couldn't do it anymore; the urge to win him was gone. Numbness took over her. But the man had already lit the old, rusted lamp of love inside him and wanted to illuminate it on her to make her feel special and loved once again. But it was too late.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Apology - SORRY -->
+        <div class="slide bg-sorry">
+            <div class="bg-effects" id="bg11"></div>
+            <div class="slide-content center">
+                <div class="photo-section" style="max-width: 500px;">
+                    <div class="photo-frame">
+                        <img src="images/sorry.JPG" alt="Sorry" onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>An Apology</div>'">
+                    </div>
+                </div>
+                <div class="text-section" style="text-align: center;">
+                    <h2 class="chapter-title hindi-text">प्रायश्चित</h2>
+                    <p class="chapter-text hindi-text" style="font-size: 1.4rem; line-height: 2.3;">
+                        त्रिदीप्शा, मुझे एक मौका देना या ना देना तुम्हारे हाथ में है। मुझे मालूम है कि आपके सब्र का बांध अब टूट चुका है और अब आपसे नहीं पाएगा। मैं भी इसमें आप पर दबाव नहीं डालना चाहता। पर बिना कुछ किए ऐसे हार मान लेना मैंने नहीं सीखा है। चूक होना इंसानी फितरत में होता है, पर उन गलतियों से सीखना उसकी जिम्मेदारी। मैं बस आपसे माफी मांगना चाहता हूं अपने गुनाहों की और आपको इस कदर सताने की। आप इन सब चीजों से बेहतर डिजर्व करते हो। हो सके तो मुझे माफ कर दो।
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Decision - HOPE -->
+        <div class="slide bg-hope">
+            <div class="bg-effects" id="bg12"></div>
+            <div class="slide-content center">
+                <p class="decision-text hindi-text">
+                    मुझे पता है आप इस समय मानसिक स्थिति में नहीं हो कि हमारे बारे में सोचो, पर आपका लिया हुआ फैसला हमारा आगे का रिश्ता कैसा होगा वो तय करेगा। मैं बिल्कुल समझता हूं इस मोड़ पर आके आपको इस रिश्ते में और ऊर्जा देने का कोई मन नहीं है।
+                </p>
+                <div class="decorative-line"></div>
+                <p class="decision-text hindi-text" style="margin-top: 3rem; margin-bottom: 2rem; font-size: 1.7rem; font-weight: 600; color: var(--rose-dark);">
+                    मैं आपसे कुछ नहीं मांगता, मांगता हूं तो बस एक मौका। क्या आप वो मौका हमारे इस रिश्ते को दोगे?
+                </p>
+                <div class="decision-buttons">
+                    <button class="decision-btn btn-yes" onclick="showEnding('yes')">
+                        <span class="hindi-text">हाँ</span> <span class="btn-icon">❤️</span>
+                    </button>
+                    <button class="decision-btn btn-no" onclick="showEnding('no')">
+                        <span class="hindi-text">नहीं</span> <span class="btn-icon">💔</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Ending Yes -->
+        <div class="slide bg-lovely">
+            <div class="bg-effects" id="bg13"></div>
+            <div class="slide-content center">
+                <h2 class="ending-title hindi-text">अध्याय 9: प्यार की ईंटों से बना नया रिश्तों का महल</h2>
+                <div class="photo-section" style="max-width: 600px; margin: 2rem auto;">
+                    <div class="photo-frame">
+                        <img src="images/yes_ending.JPG" alt="Yes" onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>New Beginning</div>'">
+                    </div>
+                </div>
+                <p class="ending-text hindi-text">
+                    आपने ये मौका देके मुझपे बहुत अहसान किया है, मैं आपको कोई भी शिकायत का मौका नहीं दूंगा। मैं उम्मीद करता हूं कि इस नए महल में सिर्फ और सिर्फ हमारा प्यार घर करे और भगवान हमें हर प्रकार की नज़र और परेशानियों से बचा के रखे। मैं आपको बता नहीं सकता कि आपको अपने बाहों में भरके जो सुख मिलता है वो अपनी प्यारी माँ के पर दबाने जितना अनमोल है।
+                </p>
+                <p class="signature">तुम्हारा सुमित</p>
+            </div>
+        </div>
+
+        <!-- Slide 14: Ending No -->
+        <div class="slide bg-sorry">
+            <div class="bg-effects" id="bg14"></div>
+            <div class="slide-content center">
+                <h2 class="ending-title hindi-text">अध्याय 9: अलविदा</h2>
+                <p class="ending-text hindi-text">
+                    आपके संग बिताया हुआ हर एक लम्हा मेरे लिए खास है, आपको अपने बाहों में भरना मैं बहुत मिस करूंगा। आपके कानों में लगा वो फूल, जिससे उस फूल की रौनक बढ़ जाती है, वो लम्हा मैं मिस करूंगा। अलविदा मेरी त्रिदीप्शा।
+                </p>
+                <div class="photo-section" style="max-width: 500px; margin: 2.5rem auto;">
+                    <div class="photo-frame">
+                        <img src="images/no_ending.JPG" alt="No" onerror="this.parentElement.innerHTML='<div class=\'photo-placeholder\'>Goodbye</div>'">
+                    </div>
+                </div>
+                <p class="signature">तुम्हारा सुमित</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="slide-nav">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← पिछला</button>
+        <div class="slide-counter">
+            <span id="currentSlide">1</span> / <span id="totalSlides">13</span>
+        </div>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">अगला →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = 13;
+
+        function updateSlideCounter() {
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide >= totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            const prevSlideIndex = currentSlide;
+            currentSlide += direction;
+            
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+
+            slides[prevSlideIndex].classList.remove('active');
+            slides[prevSlideIndex].classList.add('prev');
+            
+            setTimeout(() => {
+                slides[prevSlideIndex].classList.remove('prev');
+            }, 800);
+
+            slides[currentSlide].classList.add('active');
+            updateSlideCounter();
+        }
+
+        function showEnding(choice) {
+            const decisionSlide = slides[12];
+            decisionSlide.classList.remove('active');
+            
+            if (choice === 'yes') {
+                slides[13].classList.add('active');
+            } else {
+                slides[14].classList.add('active');
+            }
+        }
+
+        // Create lovely particles
+        function createLovelyParticles(bgId) {
+            const container = document.getElementById(bgId);
+            if (!container) return;
+            
+            const symbols = ['❤️', '💕', '💖', '💗', '💝', '✨', '⭐', '💫'];
+            
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'lovely-particle';
+                particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.setProperty('--drift', (Math.random() - 0.5) * 150 + 'px');
+                particle.style.animationDelay = Math.random() * 18 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Create rain for sorrow
+        function createRain(bgId) {
+            const container = document.getElementById(bgId);
+            if (!container) return;
+            
+            for (let i = 0; i < 80; i++) {
+                const drop = document.createElement('div');
+                drop.className = 'rain-drop';
+                drop.style.left = Math.random() * 100 + '%';
+                drop.style.animationDelay = Math.random() * 2 + 's';
+                drop.style.animationDuration = (0.8 + Math.random() * 0.8) + 's';
+                drop.style.opacity = 0.3 + Math.random() * 0.4;
+                container.appendChild(drop);
+            }
+        }
+
+        // Create wind effect
+        function createWind(bgId) {
+            const container = document.getElementById(bgId);
+            if (!container) return;
+            
+            // Wind lines
+            for (let i = 0; i < 25; i++) {
+                const line = document.createElement('div');
+                line.className = 'wind-line';
+                line.style.top = Math.random() * 100 + '%';
+                line.style.animationDelay = Math.random() * 3 + 's';
+                line.style.animationDuration = (2 + Math.random() * 2) + 's';
+                container.appendChild(line);
+            }
+
+            // Leaves
+            for (let i = 0; i < 15; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'wind-leaf';
+                leaf.style.top = Math.random() * 30 + '%';
+                leaf.style.animationDelay = Math.random() * 6 + 's';
+                leaf.style.animationDuration = (5 + Math.random() * 3) + 's';
+                container.appendChild(leaf);
+            }
+        }
+
+        // Create demolished effect
+        function createDemolished(bgId) {
+            const container = document.getElementById(bgId);
+            if (!container) return;
+            
+            // Cracks
+            for (let i = 0; i < 8; i++) {
+                const crack = document.createElement('div');
+                crack.className = 'crack-line';
+                crack.style.top = (10 + i * 11) + '%';
+                crack.style.setProperty('--angle', (Math.random() - 0.5) * 30 + 'deg');
+                crack.style.animationDelay = i * 0.2 + 's';
+                container.appendChild(crack);
+            }
+
+            // Debris
+            for (let i = 0; i < 30; i++) {
+                const debris = document.createElement('div');
+                debris.className = 'debris-particle';
+                debris.style.left = Math.random() * 100 + '%';
+                debris.style.width = (4 + Math.random() * 8) + 'px';
+                debris.style.height = (4 + Math.random() * 8) + 'px';
+                debris.style.animationDelay = Math.random() * 4 + 's';
+                debris.style.animationDuration = (3 + Math.random() * 2) + 's';
+                container.appendChild(debris);
+            }
+        }
+
+        // Create tears for sorry
+        function createTears(bgId) {
+            const container = document.getElementById(bgId);
+            if (!container) return;
+            
+            for (let i = 0; i < 20; i++) {
+                const tear = document.createElement('div');
+                tear.className = 'tear-drop';
+                tear.style.left = Math.random() * 100 + '%';
+                tear.style.animationDelay = Math.random() * 5 + 's';
+                tear.style.animationDuration = (4 + Math.random() * 2) + 's';
+                container.appendChild(tear);
+            }
+        }
+
+        // Create hope glimmers
+        function createHope(bgId) {
+            const container = document.getElementById(bgId);
+            if (!container) return;
+            
+            // Glimmer stars
+            for (let i = 0; i < 40; i++) {
+                const glimmer = document.createElement('div');
+                glimmer.className = 'glimmer-star';
+                glimmer.style.left = Math.random() * 100 + '%';
+                glimmer.style.top = Math.random() * 100 + '%';
+                glimmer.style.animationDelay = Math.random() * 3 + 's';
+                glimmer.style.animationDuration = (2 + Math.random() * 2) + 's';
+                container.appendChild(glimmer);
+            }
+
+            // Light beams
+            for (let i = 0; i < 12; i++) {
+                const beam = document.createElement('div');
+                beam.className = 'light-beam';
+                beam.style.animationDelay = i * 2 + 's';
+                beam.style.transform = `translate(-50%, -50%) rotate(${i * 30}deg)`;
+                container.appendChild(beam);
+            }
+        }
+
+        // Initialize all effects on load
+        window.addEventListener('load', () => {
+            // Lovely backgrounds (0, 1, 2, 3, 4, 5, 8, 13)
+            createLovelyParticles('bg0');
+            createLovelyParticles('bg1');
+            createLovelyParticles('bg2');
+            createLovelyParticles('bg3');
+            createLovelyParticles('bg4');
+            createLovelyParticles('bg5');
+            createLovelyParticles('bg8');
+            createLovelyParticles('bg13');
+
+            // Special effects
+            createRain('bg6');           // Sorrow (Chapter 4)
+            // bg7 is flashback - pure CSS
+            createWind('bg9');           // Wind (Chapter 7)
+            createDemolished('bg10');    // Demolished (Chapter 8)
+            createTears('bg11');         // Sorry (Apology)
+            createTears('bg14');         // Sorry (No ending)
+            createHope('bg12');          // Hope (Decision)
+
+            updateSlideCounter();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+    </script>
+</body>
+</html>
